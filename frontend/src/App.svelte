@@ -4,11 +4,11 @@
 </script>
 
 <main>
-  <div class="flex flex-row w-full">
-    <div class="">
+  <div class="flex flex-row w-screen h-screen">
+    <div class="flex-grow border-r-2 border-white">
       left side
     </div>
-    <div class="right-container w-40 flex-none">
+    <div class="w-2/6 flex-none">
       right side
     </div>
   </div>
