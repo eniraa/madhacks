@@ -35,7 +35,14 @@ def execute():
                 shutil.rmtree(dir)
                 return {"error": "language not supported"}
 
-    proc = subprocess.Popen("docker run -i --rm $(docker build -q .)", cwd=dir, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    proc = subprocess.Popen(
+        "docker run -i --rm $(docker build -q .)",
+        cwd=dir,
+        shell=True,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
 
     out = proc.communicate(input=inputs.encode())[0].decode()
 
@@ -44,11 +51,12 @@ def execute():
         shutil.rmtree(dir)
         proc.kill()
         return {"error": "test failed"}
-    
+
     proc.kill()
 
     shutil.rmtree(dir)
     return {"success": "tests passed"}
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
