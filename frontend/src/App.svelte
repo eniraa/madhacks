@@ -1,7 +1,6 @@
 <script lang="ts">
   import DropdownLanguage from "./lib/DropdownLanguage.svelte";
   import svelteLogo from "./assets/svelte.svg";
-  import Counter from "./lib/Counter.svelte";
   import CodeInput from "./lib/CodeInput.svelte";
 </script>
 

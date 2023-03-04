@@ -14,7 +14,7 @@
 
 <AceEditor
 	width='100%'
-	height='100%'
+	height='30rem'
 	lang={modes[language]}
 	theme="twilight"
 	value={text} />
