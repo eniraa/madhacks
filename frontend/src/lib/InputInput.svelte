@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, Spinner, Checkbox } from "flowbite-svelte";
+  import { Button, Spinner, Checkbox, Helper } from "flowbite-svelte";
   import { response } from '../store';
 
   let output = ""
@@ -74,7 +74,8 @@
               placeholder="Your input here..."></textarea>
     <div class="flex flex-row mt-4 items-center">
       <div class="flex-grow">
-        <Checkbox disabled={showSpinner} bind:checked={runAnalysis}>Run time complexity analysis</Checkbox>
+        <Checkbox disabled={showSpinner} aria-describedby="helper-checkbox-text" bind:checked={runAnalysis}>Run complexity analysis</Checkbox>
+        <Helper id="helper-checkbox-text" class="pl-6">(space/time)</Helper>
       </div>
       <div class="flex-none flex flex-row-reverse mr-4 items-center"><p class="text-sm">{label}</p></div>
       {#if showSpinner}
