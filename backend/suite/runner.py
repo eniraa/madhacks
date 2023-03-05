@@ -5,14 +5,17 @@ subprocess.run(f"cat /app/in | python3 /app/main.py > /app/feedback/out", shell=
 with open("/app/feedback/out") as f:
     received = f.read().rstrip("\n")
 
-from timing import time
-time()
+# from timing import time
+# time()
+subprocess.run(f"cat /app/in | python3 /app/timing.py", shell=True)
 
-from tracing import trace
-trace()
+# from tracing import trace
+# trace()
+subprocess.run(f"cat /app/in | python3 /app/tracing.py", shell=True)
 
-from memory import memory_profile
-memory_profile()
+# from memory import memory_profile
+# memory_profile()
+subprocess.run(f"cat /app/in | python3 /app/memory.py", shell=True)
 
 from gpt import analyze
 analyze()

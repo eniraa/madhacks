@@ -15,3 +15,5 @@ def memory_profile():
         f.write(f"{peak}")
     
     tracemalloc.stop()
+
+memory_profile()
