@@ -12,9 +12,12 @@
 	}
 </script>
 
-<AceEditor
-	width='100%'
-	height='30rem'
-	lang={modes[language]}
-	theme="twilight"
-	value={text} />
+<div class="h-2/3 border-b-2 border-gray-600">
+	<AceEditor
+		width='100%'
+		height='100%'
+		lang={modes[language]}
+		theme="twilight"
+		value={text} />
+</div>
+
