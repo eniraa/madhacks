@@ -11,6 +11,7 @@
 	import "brace/theme/chaos";
 	import "brace/theme/clouds_midnight";
 	import "brace/theme/monokai";
+
 	let text = "";
 
 	export let language = "Python";
@@ -40,6 +41,7 @@
 		height='100%'
 		lang={modes[language]}
 		theme={themes[themeMode]}
+		options={{showPrintMargin: false}}
 		value={text} />
 </div>
 

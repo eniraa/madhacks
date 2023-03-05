@@ -5,7 +5,7 @@
 
 <main>
   <div class="flex flex-row w-screen h-screen">
-    <div class="flex-grow flex flex-col border-r-2 border-gray-600">
+    <div class="flex-grow flex flex-col border-r-2 border-gray-600" style="resize: horizontal;">
       <LeftComponent/>
       <InputInput/>
     </div>
