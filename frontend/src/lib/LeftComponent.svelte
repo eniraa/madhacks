@@ -4,9 +4,9 @@
 
     export let language = "Python";
     export let themeMode = "Twilight";
+    export let userText = "";
     let langs = ["Python", "Java", "JavaScript", "Rust", "C", "C++", "C#"];
     let themes = ["Vibrant Ink","Chaos","Clouds Midnight","Twilight","Monokai"];
-    let text = "";
     let dropdownOpen = false;
     let themeDropdown = false;
 </script>
@@ -36,5 +36,5 @@
         </Dropdown>
     </div>
 </div>
-<CodeInput language={language} themeMode={themeMode} />
+<CodeInput language={language} themeMode={themeMode} userText={userText}/>
 

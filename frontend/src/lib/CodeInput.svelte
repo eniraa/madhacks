@@ -11,11 +11,13 @@
 	import "brace/theme/chaos";
 	import "brace/theme/clouds_midnight";
 	import "brace/theme/monokai";
+	import InputInput from "./InputInput.svelte";
 
-	let text = "";
+	let codeInput = "";
 
 	export let language = "Python";
 	export let themeMode = "Twilight";
+
 	let modes = {
 		"Python": "python",
 		"C++": "c_cpp",
@@ -37,11 +39,13 @@
 
 <div class="h-2/3 border-b-2 border-neutral-600">
 	<AceEditor
+		bind:value={codeInput}
 		width='100%'
 		height='100%'
 		lang={modes[language]}
 		theme={themes[themeMode]}
 		options={{showPrintMargin: false}}
-		value={text} />
+		/>
 </div>
+<InputInput userCode={codeInput} userLanguage="{language}"/>
 
