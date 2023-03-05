@@ -35,7 +35,7 @@
 
 </script>
 
-<div class="h-2/3 border-b-2 border-gray-600">
+<div class="h-2/3 border-b-2 border-neutral-600">
 	<AceEditor
 		width='100%'
 		height='100%'
