@@ -14,7 +14,7 @@
 </script>
 
 <h2 class="text-xl mb-2">Feedback</h2>
-<hr class="border-neutral-600 mb-4">
+<hr class="border-neutral-600 mb-4 overflow-y-auto">
 {#if resp === {}}
   <p class="text-md leading-snug text-gray-400">Run something for feedback!</p>
 {:else}
@@ -25,11 +25,14 @@
     <p class="text-sm text-neutral-400 leading-snug mb-4">{bytesToSize(resp.memory)}</p>
     <h3 class="text-lg text-gray-300">Runtime</h3>
     <p class="text-sm text-neutral-400 leading-snug mb-4">{(resp.time * 1000).toFixed(3)}ms</p>
-    <h3 class="text-lg text-gray-300">Line Coverage</h3>
-    <p class="text-sm text-neutral-400 leading-snug mb-4">{resp.coverage}</p>
+    <h3 class="text-lg text-gray-300 mb-2">Line Coverage</h3>
+    <div class="overflow-x-auto bg-neutral-800 border-gray-600 border-2 mb-4 py-2 min-h-[16rem]">
+      <pre class="text-sm text-neutral-400 leading-snug">{resp.coverage}</pre>
+    </div>
+
     {#if resp.analysis}
       <h3 class="text-lg text-gray-300">Complexity Analysis</h3>
-      <p class="text-sm text-neutral-400 leading-snug mb-4">{@html resp.analysis.replace("\n", "<br>")}</p>
+      <p class="text-sm text-neutral-400 leading-snug mb-4">{@html resp.analysis.replaceAll("\n", "<br>")}</p>
     {/if}
   {/if}
 {/if}

@@ -8,7 +8,7 @@
     <div class="flex-grow flex flex-col border-r-2 border-neutral-600">
       <LeftComponent/>
     </div>
-    <div class="w-2/6 flex-none flex flex-col p-6">
+    <div class="w-2/6 flex-none flex flex-col p-6 overflow-y-auto">
       <RightComponent/>
     </div>
   </div>

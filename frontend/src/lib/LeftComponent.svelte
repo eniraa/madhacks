@@ -13,7 +13,7 @@
 
 <div class="flex items-center mx-4 h-16">
     <div class="flex-grow">
-        <h1 class="text-xl">λf.(λx.f(xx))(λx.f(xx))</h1>
+        <h1 class="text-xl">🔎 CodeScope</h1>
     </div>
     <div class="flex-none relative">
         <Button color="blue" size="xs"><Chevron>{language}</Chevron></Button>
