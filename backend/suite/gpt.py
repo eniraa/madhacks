@@ -1,6 +1,6 @@
 import openai
 
-openai.api_key = "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"
+openai.api_key = "…"
 
 def analyze() -> dict:
     with open("/app/main.py") as f:
