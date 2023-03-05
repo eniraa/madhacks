@@ -35,6 +35,17 @@ def execute():
             case _:
                 shutil.rmtree(dir)
                 return {"success": False, "error": "language not supported"}
+    
+    os.mkdir(dir / "trace")
+
+    with open(dir / "trace/Dockerfile", "w") as f:
+        match language:
+            case "py":
+                f.write(f"FROM {dir}\n")
+                f.write("CMD python -m trace --count -C ./test /app/main.py\n")
+            case _:
+                shutil.rmtree(dir)
+                return {"success": False, "error": "language not supported"}
 
     try:
         proc = subprocess.run(
@@ -46,12 +57,23 @@ def execute():
             stderr=subprocess.STDOUT,
             check=True,
         )
+
+        proc = subprocess.run(
+            f"docker build trace -t {dir}trace",
+            cwd=dir,
+            shell=True,
+            stdin=subprocess.PIPE,
+            # stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            check=True,
+        )
     except subprocess.CalledProcessError:
-        shutil.rmtree(dir)
+        # shutil.rmtree(dir)
         return {"success": False, "error": "docker build failed"}
 
+    # normal run
     proc = subprocess.Popen(
-        f"docker run -i --rm {dir}",
+        f"docker run -i -v {dir.absolute()}/test:/app/test --rm {dir}",
         cwd=dir,
         shell=True,
         stdin=subprocess.PIPE,
@@ -65,14 +87,25 @@ def execute():
 
     if out.rstrip("\n") != outputs:
         print(out, outputs)
-        shutil.rmtree(dir)
+        # shutil.rmtree(dir)
         proc.kill()
         return {"success": False, "error": "test failed"}
 
     proc.kill()
 
-    shutil.rmtree(dir)
-    return {"success": True, "time": elapsed.total_seconds()}
+    # trace
+    proc = subprocess.Popen(
+        f"docker run -i -v {dir.absolute()}/test:/app/test --rm {dir}trace",
+        cwd=dir,
+        shell=True,
+        stdin=subprocess.PIPE,
+        # stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    proc.communicate(input=inputs.encode())
+
+    # shutil.rmtree(dir)
+    return {"success": True, "time": elapsed.total_seconds(), "cov": open(dir / "test/main.cover").read()}
 
 
 if __name__ == "__main__":
