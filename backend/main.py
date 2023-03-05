@@ -35,8 +35,22 @@ def execute():
                 shutil.rmtree(dir)
                 return {"error": "language not supported"}
 
+    try:
+        proc = subprocess.run(
+            f"docker build . -t {dir}",
+            cwd=dir,
+            shell=True,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            check=True,
+        )
+    except subprocess.CalledProcessError:
+        shutil.rmtree(dir)
+        return {"error": "docker build failed"}
+
     proc = subprocess.Popen(
-        "docker run -i --rm $(docker build -q .)",
+        f"docker run -i --rm {dir}",
         cwd=dir,
         shell=True,
         stdin=subprocess.PIPE,
