@@ -21,7 +21,17 @@ def execute():
     code: str = data.get("code", "")
     language: str = data.get("language", "")
     inputs: str = data.get("inputs", "")
+
+    print(language)
     # outputs: str = data.get("outputs", "")
+
+    """edge case when the code input is just empty lol"""
+    if not code:
+        return {"Success": False, "Error": "Code is empty"}
+
+    """only python support for now (without this, it throws errors for other langs)"""
+    if language != "py":
+        return {"Success": False, "Error": "Language not supported"}
 
     with open(dir / f"main.{language}", "w") as f:
         f.write(code)
@@ -47,7 +57,7 @@ def execute():
                 f.write("CMD python runner.py\n")
             case _:
                 shutil.rmtree(dir)
-                return {"success": False, "error": "language not supported"}
+                return {"Success": False, "Error": "Language not supported"}
 
     try:
         subprocess.run(
@@ -60,7 +70,7 @@ def execute():
             check=True,
         )
     except subprocess.CalledProcessError:
-        return {"success": False, "error": "build failed"}
+        return {"Success": False, "Error": "Build failed"}
 
     # normal run
     try:
@@ -70,10 +80,10 @@ def execute():
             shell=True,
             check=True,
         )
-    except subprocess.CalledProcessError:
+    except subprocess.CalledProcessError as e:
         return {
-            "success": False,
-            "error": "run failed",
+            "Success": False,
+            "Error": "Run failed",
         }
 
     elapsed = float(open(dir / "feedback" / "time.txt").read())
@@ -84,11 +94,11 @@ def execute():
 
     shutil.rmtree(dir)
     return {
-        "success": True,
-        "time": elapsed,
-        "coverage": coverage,
-        "output": output,
-        "memory": memory,
+        "Success": True,
+        "Time": elapsed,
+        "Coverage": coverage,
+        "Output": output,
+        "Memory": memory,
         # "analysis": analysis,
     }
 
