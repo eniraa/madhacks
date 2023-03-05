@@ -1,0 +1,7 @@
+{
+    "coverage": "    1: print(\"hello\\nworld\")\n",
+    "memory": 12228, // bytes
+    "output": "hello\nworld\n",
+    "success": true,
+    "time": 6.95900052960496e-06 // seconds
+}
