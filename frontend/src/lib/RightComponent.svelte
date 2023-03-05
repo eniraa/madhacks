@@ -16,7 +16,7 @@
 <h2 class="text-xl mb-2">Feedback</h2>
 <hr class="border-neutral-600 mb-4 overflow-y-auto">
 {#if JSON.stringify(resp) === "{}"}
-  <p class="text-md leading-snug text-gray-400">Run something for feedback!</p>
+  <p class="flex-grow justify-center items-center flex text-md leading-snug text-gray-400">Run something for feedback!</p>
 {:else}
   {#if resp.success === false}
     <p class="text-red-500 text-md leading-snug">Code did not run successfully.</p>
