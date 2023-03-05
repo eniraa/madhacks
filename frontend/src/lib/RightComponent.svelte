@@ -29,7 +29,7 @@
     <p class="text-sm text-neutral-400 leading-snug mb-4">{resp.coverage}</p>
     {#if resp.analysis}
       <h3 class="text-lg text-gray-300">Complexity Analysis</h3>
-      <p class="text-sm text-neutral-400 leading-snug mb-4">{resp.analysis}</p>
+      <pre class="text-sm text-neutral-400 leading-snug mb-4">{resp.analysis}</pre>
     {/if}
   {/if}
 {/if}
