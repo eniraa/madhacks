@@ -90,16 +90,16 @@ def execute():
     coverage = open(dir / "feedback" / "main.cover").read()
     output = open(dir / "feedback" / "out").read()
     memory = int(open(dir / "feedback" / "memory.txt").read())
-    # analysis = open(dir / "feedback" / "analysis.txt").read()
+    analysis = open(dir / "feedback" / "analysis.txt").read()
 
     shutil.rmtree(dir)
     return {
-        "Success": True,
-        "Time": elapsed,
-        "Coverage": coverage,
-        "Output": output,
-        "Memory": memory,
-        # "analysis": analysis,
+        "success": True,
+        "time": elapsed,
+        "coverage": coverage,
+        "output": output,
+        "memory": memory,
+        "analysis": analysis,
     }
 
 

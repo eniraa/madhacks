@@ -41,10 +41,10 @@
         output = [];
         Object.entries(response).forEach(([key,value]) => {
           switch (key) {
-            case "Memory":
+            case "memory":
               output.push(key + ": " + bytesToSize(value));
               break;
-            case "Time":
+            case "time":
               output.push(key + ": " + value + " seconds");
               break;
             default:

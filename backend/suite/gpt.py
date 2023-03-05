@@ -7,9 +7,9 @@ def analyze() -> dict:
         code = f.read()
 
     response = openai.Completion.create(
-        model="gpt-3.5-turbo-0301",
-        prompt=f"Analyze the time/space complexity of the following Python code:\n\n```py\n{code}\n```",
-        max_tokens=1024
+        model="text-davinci-003",
+        prompt=f"Analyze the time complexity and space complexity of the following Python code, and provide an explanation:\n\n```py\n{code}\n```",
+        max_tokens=256,
     )
 
     with open("/app/feedback/analysis.txt", "w") as f:
