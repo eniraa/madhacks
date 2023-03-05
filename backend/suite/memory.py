@@ -13,11 +13,11 @@ tracemalloc.start()
 
 {code}
 
-with open("/app/feedback/memory.txt", "w") as f:
-    peak = tracemalloc.get_traced_memory()[1]
-    f.write(str(peak))
-
+peak = tracemalloc.get_traced_memory()[1]
 tracemalloc.stop()
+
+with open("/app/feedback/memory.txt", "w") as f:
+    f.write(str(peak))
 """
 
     with open("/app/main_mem.py", "w") as f:
