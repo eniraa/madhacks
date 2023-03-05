@@ -31,7 +31,7 @@ def execute():
     # with open(dir / "out", "w") as f:
     #     f.write(outputs)
 
-    for file in ["runner.py", "tracing.py", "timing.py", "memory.py"]:
+    for file in ["runner.py", "tracing.py", "timing.py", "memory.py", "gpt.py"]:
         with open(dir / file, "w") as f:
             with open(dir / ".." / "suite" / file) as f2:
                 f.write(f2.read())
@@ -40,6 +40,7 @@ def execute():
         match language:
             case "py":
                 f.write("FROM python:3.11\n")
+                f.write("RUN pip install openai\n")
                 f.write("COPY . /app\n")
                 f.write("WORKDIR /app\n")
                 f.write("CMD python runner.py\n")
@@ -78,6 +79,7 @@ def execute():
     coverage = open(dir / "feedback" / "main.cover").read()
     output = open(dir / "feedback" / "out").read()
     memory = int(open(dir / "feedback" / "memory.txt").read())
+    analysis = open(dir / "feedback" / "analysis.txt").read()
 
     shutil.rmtree(dir)
     return {
@@ -86,6 +88,7 @@ def execute():
         "coverage": coverage,
         "output": output,
         "memory": memory,
+        "analysis": analysis,
     }
 
 

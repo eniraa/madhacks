@@ -14,4 +14,7 @@ trace()
 from memory import memory_profile
 memory_profile()
 
+# from gpt import analyze
+# analyze()
+
 ...
