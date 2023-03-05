@@ -20,10 +20,21 @@ def execute():
     code: str = data.get("code", "")
     language: str = data.get("language", "")
     inputs: str = data.get("inputs", "")
-    outputs: str = data.get("outputs", "")
+    # outputs: str = data.get("outputs", "")
 
     with open(dir / f"main.{language}", "w") as f:
         f.write(code)
+
+    with open(dir / "in", "w") as f:
+        f.write(inputs)
+
+    # with open(dir / "out", "w") as f:
+    #     f.write(outputs)
+
+    for file in ["runner.py", "tracing.py", "timing.py", "memory.py"]:
+        with open(dir / file, "w") as f:
+            with open(dir / ".." / "suite" / file) as f2:
+                f.write(f2.read())
 
     with open(dir / "Dockerfile", "w") as f:
         match language:
@@ -31,35 +42,14 @@ def execute():
                 f.write("FROM python:3.11\n")
                 f.write("COPY . /app\n")
                 f.write("WORKDIR /app\n")
-                f.write("CMD python main.py\n")
-            case _:
-                shutil.rmtree(dir)
-                return {"success": False, "error": "language not supported"}
-    
-    os.mkdir(dir / "trace")
-
-    with open(dir / "trace/Dockerfile", "w") as f:
-        match language:
-            case "py":
-                f.write(f"FROM {dir}\n")
-                f.write("CMD python -m trace --count -C ./test /app/main.py\n")
+                f.write("CMD python runner.py\n")
             case _:
                 shutil.rmtree(dir)
                 return {"success": False, "error": "language not supported"}
 
     try:
-        proc = subprocess.run(
+        subprocess.run(
             f"docker build . -t {dir}",
-            cwd=dir,
-            shell=True,
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            check=True,
-        )
-
-        proc = subprocess.run(
-            f"docker build trace -t {dir}trace",
             cwd=dir,
             shell=True,
             stdin=subprocess.PIPE,
@@ -68,44 +58,35 @@ def execute():
             check=True,
         )
     except subprocess.CalledProcessError:
-        # shutil.rmtree(dir)
-        return {"success": False, "error": "docker build failed"}
+        return {"success": False, "error": "build failed"}
 
     # normal run
-    proc = subprocess.Popen(
-        f"docker run -i -v {dir.absolute()}/test:/app/test --rm {dir}",
-        cwd=dir,
-        shell=True,
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-    )
+    try:
+        subprocess.run(
+            f"docker run -i -v {dir.absolute()}/feedback:/app/feedback --rm {dir}",
+            cwd=dir,
+            shell=True,
+            check=True,
+        )
+    except subprocess.CalledProcessError:
+        return {
+            "success": False,
+            "error": "run failed",
+        }
 
-    now = datetime.datetime.now()
-    out = proc.communicate(input=inputs.encode())[0].decode()
-    elapsed = datetime.datetime.now() - now
+    elapsed = float(open(dir / "feedback" / "time.txt").read())
+    coverage = open(dir / "feedback" / "main.cover").read()
+    output = open(dir / "feedback" / "out").read()
+    memory = int(open(dir / "feedback" / "memory.txt").read())
 
-    if out.rstrip("\n") != outputs:
-        print(out, outputs)
-        # shutil.rmtree(dir)
-        proc.kill()
-        return {"success": False, "error": "test failed"}
-
-    proc.kill()
-
-    # trace
-    proc = subprocess.Popen(
-        f"docker run -i -v {dir.absolute()}/test:/app/test --rm {dir}trace",
-        cwd=dir,
-        shell=True,
-        stdin=subprocess.PIPE,
-        # stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-    )
-    proc.communicate(input=inputs.encode())
-
-    # shutil.rmtree(dir)
-    return {"success": True, "time": elapsed.total_seconds(), "cov": open(dir / "test/main.cover").read()}
+    shutil.rmtree(dir)
+    return {
+        "success": True,
+        "time": elapsed,
+        "coverage": coverage,
+        "output": output,
+        "memory": memory,
+    }
 
 
 if __name__ == "__main__":
