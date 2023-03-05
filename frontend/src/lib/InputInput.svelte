@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Button, Spinner } from "flowbite-svelte";
+
   export let output = "the wrong answer";
   export let label = "Ready to test?"
   export let buttonLabel = "Run";
@@ -8,13 +9,43 @@
   function runCode() {
     label = "Running...";
     showSpinner = true;
+    let userInput = document.getElementById("input-code-text").textContent;
+    doPost();
+  }
+
+  async function doPost () {
+    let body = {
+      code: "print('hello world')",
+      language: "py",
+      input: "…"
+    }
+    fetch("http://127.0.0.1:5000/execute/", {
+
+      method: "POST",
+
+      body: JSON.stringify({
+      code: "print('hello world')",
+      language: "py",
+      inputs: "…"
+      }),
+
+      // headers: {
+      //   "Content-type": "application/json; charset=UTF-8"
+      // }
+    })
+      .then(response => response.json())
+      .then(json => output = json);
   }
 </script>
 
 <div class="m-4 h-1/3 flex">
   <div class="flex-1 flex flex-col mr-4">
     <h2 class="text-xl mb-2">Input&nbsp;&nbsp;<span class="text-xs text-neutral-400"> (this gets fed to stdin)</span></h2>
-    <textarea spellcheck="false"
+
+    <!--    Form -->
+    <textarea
+              id="input-code-text"
+              spellcheck="false"
               class="flex-grow p-4 code-input bg-neutral-800 rounded-md focus:ring-0 focus:outline-none border-2 border-neutral-500 focus:border-neutral-500"
               placeholder="Your input here..."></textarea>
     <div class="flex flex-row mt-4 items-center">
@@ -22,6 +53,7 @@
       {#if showSpinner}
        <Spinner class="mr-4" id="spinner" size={4} />
       {/if}
+      <!--submit button -->
       <Button color="blue" disabled={showSpinner} size="xs" on:click={() => runCode()}>{buttonLabel}</Button>
     </div>
   </div>
