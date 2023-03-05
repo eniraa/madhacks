@@ -21,6 +21,7 @@ def execute():
     code: str = data.get("code", "")
     language: str = data.get("language", "")
     inputs: str = data.get("inputs", "")
+    should_analyze: bool = data.get("analysis", False)
 
     print(language)
     # outputs: str = data.get("outputs", "")
@@ -54,6 +55,7 @@ def execute():
                 f.write("RUN pip install openai\n")
                 f.write("COPY . /app\n")
                 f.write("WORKDIR /app\n")
+                f.write(f"ENV ANALYZE={1 if should_analyze else 0}\n")
                 f.write("CMD python runner.py\n")
             case _:
                 shutil.rmtree(dir)
@@ -90,7 +92,11 @@ def execute():
     coverage = open(dir / "feedback" / "main.cover").read()
     output = open(dir / "feedback" / "out").read()
     memory = int(open(dir / "feedback" / "memory.txt").read())
-    analysis = open(dir / "feedback" / "analysis.txt").read()
+
+    if should_analyze:
+        analysis = open(dir / "feedback" / "analysis.txt").read()
+    else:
+        analysis = None
 
     shutil.rmtree(dir)
     return {

@@ -1,5 +1,6 @@
 {
     "code": "print('hello world')",
     "language": "py",
-    "input": "…"
+    "input": "…",
+    "analysis": true
 }

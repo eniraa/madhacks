@@ -1,3 +1,4 @@
+import os
 import subprocess
 
 subprocess.run(f"cat /app/in | python3 /app/main.py > /app/feedback/out", shell=True)
@@ -17,7 +18,6 @@ subprocess.run(f"cat /app/in | python3 /app/tracing.py", shell=True)
 # memory_profile()
 subprocess.run(f"cat /app/in | python3 /app/memory.py", shell=True)
 
-from gpt import analyze
-analyze()
-
-...
+if os.environ.get("ANALYZE", "0") == "1":
+    from gpt import analyze
+    analyze()

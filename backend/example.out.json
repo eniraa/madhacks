@@ -1,4 +1,5 @@
 {
+    "analysis": "\n\nThe time complexity of this code is O(1) since the process always takes the same amount of time regardless of the input size. The space complexity of this code is also O(1) since the size of the output is constant, regardless of the size of the input.",
     "coverage": "    1: print(\"hello\\nworld\")\n",
     "memory": 12228, // bytes
     "output": "hello\nworld\n",
