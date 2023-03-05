@@ -15,10 +15,10 @@
 
 <h2 class="text-xl mb-2">Feedback</h2>
 <hr class="border-neutral-600 mb-4 overflow-y-auto">
-{#if resp === {}}
+{#if JSON.stringify(resp) === "{}"}
   <p class="text-md leading-snug text-gray-400">Run something for feedback!</p>
 {:else}
-  {#if !resp.success}
+  {#if resp.success === false}
     <p class="text-red-500 text-md leading-snug">Code did not run successfully.</p>
   {:else}
     <h3 class="text-lg text-gray-300">Memory Usage</h3>
@@ -26,7 +26,7 @@
     <h3 class="text-lg text-gray-300">Runtime</h3>
     <p class="text-sm text-neutral-400 leading-snug mb-4">{(resp.time * 1000).toFixed(3)}ms</p>
     <h3 class="text-lg text-gray-300 mb-2">Line Coverage</h3>
-    <div class="overflow-x-auto bg-neutral-800 border-gray-600 border-2 mb-4 py-2 min-h-[16rem]">
+    <div class="overflow-x-auto bg-neutral-900 border-neutral-700 border-2 mb-4 p-2 min-h-[16rem]">
       <pre class="text-sm text-neutral-400 leading-snug">{resp.coverage}</pre>
     </div>
 
