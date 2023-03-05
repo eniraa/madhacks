@@ -3,6 +3,7 @@ import shutil
 from uuid import uuid4
 import pathlib
 import subprocess
+import datetime
 
 from flask import Flask, request
 
@@ -58,7 +59,9 @@ def execute():
         stderr=subprocess.STDOUT,
     )
 
+    now = datetime.datetime.now()
     out = proc.communicate(input=inputs.encode())[0].decode()
+    elapsed = datetime.datetime.now() - now
 
     if out.rstrip("\n") != outputs:
         print(out, outputs)
@@ -69,7 +72,7 @@ def execute():
     proc.kill()
 
     shutil.rmtree(dir)
-    return {"success": "tests passed"}
+    return {"success": "tests passed", "time": elapsed.total_seconds()}
 
 
 if __name__ == "__main__":
