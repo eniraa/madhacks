@@ -17,7 +17,7 @@ def execute():
     dir = pathlib.Path(uuid4().hex)
     os.mkdir(dir)
 
-    data = request.get_json()
+    data: dict = request.get_json()
     code: str = data.get("code", "")
     language: str = data.get("language", "")
     inputs: str = data.get("inputs", "")
@@ -26,13 +26,13 @@ def execute():
     print(language)
     # outputs: str = data.get("outputs", "")
 
-    """edge case when the code input is just empty lol"""
-    if not code:
-        return {"Success": False, "Error": "Code is empty"}
+    # """edge case when the code input is just empty lol"""
+    # if not code:
+    #     return {"Success": False, "Error": "Code is empty"}
 
     """only python support for now (without this, it throws errors for other langs)"""
     if language != "py":
-        return {"Success": False, "Error": "Language not supported"}
+        return {"success": False, "error": "Language not supported"}
 
     with open(dir / f"main.{language}", "w") as f:
         f.write(code)
@@ -59,7 +59,7 @@ def execute():
                 f.write("CMD python runner.py\n")
             case _:
                 shutil.rmtree(dir)
-                return {"Success": False, "Error": "Language not supported"}
+                return {"success": False, "error": "Language not supported"}
 
     try:
         subprocess.run(
@@ -72,7 +72,7 @@ def execute():
             check=True,
         )
     except subprocess.CalledProcessError:
-        return {"Success": False, "Error": "Build failed"}
+        return {"success": False, "error": "Build failed"}
 
     # normal run
     try:
@@ -84,8 +84,8 @@ def execute():
         )
     except subprocess.CalledProcessError as e:
         return {
-            "Success": False,
-            "Error": "Run failed",
+            "success": False,
+            "error": "Run failed",
         }
 
     elapsed = float(open(dir / "feedback" / "time.txt").read())
