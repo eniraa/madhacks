@@ -14,12 +14,7 @@
   }
 
   async function doPost () {
-    let body = {
-      code: "print('hello world')",
-      language: "py",
-      input: "…"
-    }
-    fetch("http://127.0.0.1:5000/execute/", {
+    fetch("http://127.0.0.1:5000/execute", {
 
       method: "POST",
 
@@ -29,12 +24,12 @@
       inputs: "…"
       }),
 
-      // headers: {
-      //   "Content-type": "application/json; charset=UTF-8"
-      // }
+      headers: {
+        "Content-type": "application/json"
+      }
     })
       .then(response => response.json())
-      .then(json => output = json);
+      .then(response => output = JSON.stringify(response))
   }
 </script>
 
