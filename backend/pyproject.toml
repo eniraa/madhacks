@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.11"
 flask = "^2.2.3"
 openai = "^0.27.0"
+flask-cors = "^3.0.10"
 
 
 [build-system]

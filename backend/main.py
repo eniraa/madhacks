@@ -3,12 +3,13 @@ import shutil
 from uuid import uuid4
 import pathlib
 import subprocess
-import datetime
 
 from flask import Flask, request
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route("/execute", methods=["POST"])
@@ -79,7 +80,7 @@ def execute():
     coverage = open(dir / "feedback" / "main.cover").read()
     output = open(dir / "feedback" / "out").read()
     memory = int(open(dir / "feedback" / "memory.txt").read())
-    analysis = open(dir / "feedback" / "analysis.txt").read()
+    # analysis = open(dir / "feedback" / "analysis.txt").read()
 
     shutil.rmtree(dir)
     return {
@@ -88,7 +89,7 @@ def execute():
         "coverage": coverage,
         "output": output,
         "memory": memory,
-        "analysis": analysis,
+        # "analysis": analysis,
     }
 
 
