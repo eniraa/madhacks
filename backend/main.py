@@ -34,7 +34,7 @@ def execute():
                 f.write("CMD python main.py\n")
             case _:
                 shutil.rmtree(dir)
-                return {"error": "language not supported"}
+                return {"success": False, "error": "language not supported"}
 
     try:
         proc = subprocess.run(
@@ -48,7 +48,7 @@ def execute():
         )
     except subprocess.CalledProcessError:
         shutil.rmtree(dir)
-        return {"error": "docker build failed"}
+        return {"success": False, "error": "docker build failed"}
 
     proc = subprocess.Popen(
         f"docker run -i --rm {dir}",
@@ -67,12 +67,12 @@ def execute():
         print(out, outputs)
         shutil.rmtree(dir)
         proc.kill()
-        return {"error": "test failed"}
+        return {"success": False, "error": "test failed"}
 
     proc.kill()
 
     shutil.rmtree(dir)
-    return {"success": "tests passed", "time": elapsed.total_seconds()}
+    return {"success": True, "time": elapsed.total_seconds()}
 
 
 if __name__ == "__main__":
