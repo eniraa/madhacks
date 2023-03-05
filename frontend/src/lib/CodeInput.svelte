@@ -2,6 +2,10 @@
 	import { AceEditor } from "svelte-ace";
 	import "brace/mode/c_cpp";
 	import "brace/mode/python";
+	import "brace/mode/rust";
+	import "brace/mode/javascript";
+	import "brace/mode/java";
+	import "brace/mode/csharp";
 	import "brace/theme/twilight";
 	let text = "";
 
@@ -9,6 +13,11 @@
 	let modes = {
 		"Python": "python",
 		"C++": "c_cpp",
+		"C#": "csharp",
+		"JavaScript": "javascript",
+		"Java": "java",
+		"Rust": "rust",
+		"C": "c_cpp"
 	}
 </script>
 
