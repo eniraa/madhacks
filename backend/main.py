@@ -94,7 +94,7 @@ def execute():
     memory = int(open(dir / "feedback" / "memory.txt").read())
 
     if should_analyze:
-        analysis = open(dir / "feedback" / "analysis.txt").read()
+        analysis = open(dir / "feedback" / "analysis.txt").read().strip("\n")
     else:
         analysis = None
 
