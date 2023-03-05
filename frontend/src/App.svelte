@@ -1,5 +1,6 @@
 <script lang="ts">
   import LeftComponent from "./lib/LeftComponent.svelte";
+  import RightComponent from "./lib/RightComponent.svelte";
 </script>
 
 <main>
@@ -8,8 +9,7 @@
       <LeftComponent/>
     </div>
     <div class="w-2/6 flex-none flex flex-col p-6">
-      <h2 class="text-xl mb-2">Feedback</h2>
-      <p class="text-md leading-snug text-gray-400">Wow your code sucks</p>
+      <RightComponent/>
     </div>
   </div>
 </main>
