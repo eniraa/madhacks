@@ -5,7 +5,7 @@
   response.subscribe((value) => resp = value);
 
   function bytesToSize(bytes) {
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
+    const sizes = ['bytes', 'KB', 'MB', 'GB', 'TB']
     if (bytes === 0) return 'n/a'
     const i = parseInt(String(Math.floor(Math.log(bytes) / Math.log(1024))), 10)
     if (i === 0) return `${bytes} ${sizes[i]}`
@@ -26,7 +26,7 @@
     <h3 class="text-lg text-gray-300">Runtime</h3>
     <p class="text-sm text-neutral-400 leading-snug mb-4">{(resp.time * 1000).toFixed(3)}ms</p>
     <h3 class="text-lg text-gray-300">Line Coverage</h3>
-    <p class="text-sm text-neutral-400 leading-snug mb-4">{resp.coverage}ms</p>
+    <p class="text-sm text-neutral-400 leading-snug mb-4">{resp.coverage}</p>
     {#if resp.analysis}
       <h3 class="text-lg text-gray-300">Complexity Analysis</h3>
       <p class="text-sm text-neutral-400 leading-snug mb-4">{resp.analysis}</p>
